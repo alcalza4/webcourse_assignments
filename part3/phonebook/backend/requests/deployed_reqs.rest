@@ -1,0 +1,11 @@
+### Get All (Production)
+GET https://austincalza.com/api/persons
+
+### Create New (Production)
+POST https://austincalza.com/api/persons
+Content-Type: application/json
+
+{
+    "name": "Production Test",
+    "number": "555-0000"
+}
