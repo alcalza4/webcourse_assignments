@@ -1,0 +1,24 @@
+# Test send / duplicate name
+POST http://localhost:3001/api/persons/
+Content-Type: application/json
+
+{
+    "name": "alpha",
+    "number": "1245654"
+}
+###
+# Test no name
+POST http://localhost:3001/api/persons/
+Content-Type: application/json
+
+{
+    "number": "4746523"
+}
+###
+# Test no number
+POST http://localhost:3001/api/persons/
+Content-Type: application/json
+
+{
+    "name": "asdsghjk"
+}
