@@ -3,7 +3,8 @@ const morgan = require('morgan')
 const cors = require('cors')
 const app = express()
 
-app.use(cors('dist'))
+app.use(cors())
+app.use(express.static('dist'))
 
 morgan.token('body', (req) => {
   if (!req.body || Object.keys(req.body).length === 0) {
