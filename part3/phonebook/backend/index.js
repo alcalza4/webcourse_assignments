@@ -100,6 +100,24 @@ app.post('/api/persons', (request, response) => {
   response.json(person)
 })
 
+app.put('/api/persons/:id', (request, response) => {
+  const id = request.params.id
+  const body = request.body
+
+  const index = persons.findIndex(person => person.id === id)
+
+  if (index !== -1) {
+    const updatedPerson = {
+      ...persons[index],
+      number: body.number
+    }
+    persons[index] = updatedPerson
+    response.json(updatedPerson)
+  } else {
+    response.status(404).end()
+  }
+})
+
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
