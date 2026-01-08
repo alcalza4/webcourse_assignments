@@ -91,10 +91,15 @@ const App = () => {
 						showNotification(`${returnedName.name}\'s phone number has been updated`, 'success')
 					})
 					.catch(error => {
-						showNotification(`${existingPerson.name} was already removed from the server`, 'error')
-						setPersons(persons.filter(person => person.id !== existingPerson.id))
-						setNewName('')
-						setNewNumber('')
+						if (error.response && error.response.data && error.response.data.error) {
+							showNotification('Invalid phone number, must follow 12-345678... or 123-45678..., min length 8', 'error')
+						} 
+						else {
+							showNotification(`${existingPerson.name} was already removed from the server`, 'error')
+							setPersons(persons.filter(person => person.id !== existingPerson.id))
+							setNewName('')
+							setNewNumber('')
+						}
 					})
 			}
 			return
@@ -112,6 +117,10 @@ const App = () => {
 				setNewName('')
 				setNewNumber('')
 				showNotification(`${returnedNamed.name} has been added`, 'success')
+			})
+			.catch(error => {
+				console.log(error.response.data.error)
+				showNotification(error.response.data.error, 'error')
 			})
 	}
 

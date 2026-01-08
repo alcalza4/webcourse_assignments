@@ -1,8 +1,8 @@
 ### Get All (Production)
-GET https://austincalza.com/api/persons
+GET https://austincalza.com/api/contacts
 
 ### Create New (Production)
-POST https://austincalza.com/api/persons
+POST https://austincalza.com/api/contacts
 Content-Type: application/json
 
 {
