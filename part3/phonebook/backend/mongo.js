@@ -14,35 +14,35 @@ mongoose.set('strictQuery', false)
 mongoose.connect(url, { family: 4 })
 
 const contactSchema = new mongoose.Schema({
-		name: String,
-		number: String,
-	})
+  name: String,
+  number: String,
+})
 
 const Contact = mongoose.model('contact', contactSchema)
 
 if (process.argv.length === 3) {
-	Contact.find({}).then(result => {
-		console.log("phonebook:")
-		result.forEach(contact => {
-			console.log(`${contact.name} ${contact.number}`)
-		})
-		mongoose.connection.close()
-	})
+  Contact.find({}).then(result => {
+    console.log('phonebook:')
+    result.forEach(contact => {
+      console.log(`${contact.name} ${contact.number}`)
+    })
+    mongoose.connection.close()
+  })
 }
 
 else if (process.argv.length === 5) {
-	const contact = new Contact({
-		name: process.argv[3],
-		number: process.argv[4],
-    })
+  const contact = new Contact({
+    name: process.argv[3],
+    number: process.argv[4],
+  })
 
-	contact.save().then(result => {
+  contact.save().then(() => {
     console.log(`added ${contact.name} number ${contact.number} to phonebook`)
     mongoose.connection.close()
-	})
+  })
 }
 
 else {
-	console.log('Please provide a password, or a password, name, and number')
-	mongoose.connection.close()
+  console.log('Please provide a password, or a password, name, and number')
+  mongoose.connection.close()
 }

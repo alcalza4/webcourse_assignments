@@ -17,47 +17,46 @@ app.use(express.json())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 app.get('/info', (request, response) => {
-	const currentDate = new Date()
+  const currentDate = new Date()
 
-	Contact.countDocuments({}).then(count => {
-		response.send(`
+  Contact.countDocuments({}).then(count => {
+    response.send(`
       <p>Phonebook has info for ${count} people</p>
       <p>${currentDate}</p>
     `)
-	})
+  })
 })
 
 app.get('/api/contacts', (request, response, next) => {
-  Contact.find({}).then(contacts =>
-		response.json(contacts)
-	)
-	.catch(error => next(error))
+  Contact.find({})
+    .then(contacts => response.json(contacts))
+    .catch(error => next(error))
 })
 
 app.get('/api/contacts/:id', (request, response, next) => {
-	Contact.findById(request.params.id)
-	.then(contact => {
-		if (contact) {
-			response.json(contact)
-		} else {
-			response.status(404).end()
-		}
-	})
-	.catch(error => next(error))
+  Contact.findById(request.params.id)
+    .then(contact => {
+      if (contact) {
+        response.json(contact)
+      } else {
+        response.status(404).end()
+      }
+    })
+    .catch(error => next(error))
 })
 
 app.delete('/api/contacts/:id', (request, response, next) => {
-	Contact.findByIdAndDelete(request.params.id)
-	.then(result => {
-		response.status(204).end()
-	})
-	.catch(error => next(error))
+  Contact.findByIdAndDelete(request.params.id)
+    .then(() => {
+      response.status(204).end()
+    })
+    .catch(error => next(error))
 })
 
 
 app.post('/api/contacts', (request, response, next) => {
-	const body = request.body
-	
+  const body = request.body
+
   Contact.findOne({ name: body.name }).then(existingContact => {
     if (existingContact) {
       return response.status(400).json({ error: 'name must be unique' })
@@ -71,27 +70,27 @@ app.post('/api/contacts', (request, response, next) => {
     contact.save().then(savedContact => {
       response.json(savedContact)
     })
-		.catch(error => next(error))
+      .catch(error => next(error))
   })
-	.catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.put('/api/contacts/:id', (request, response, next) => {
-  const { name, number} = request.body
+  const { name, number } = request.body
   Contact.findById(request.params.id)
     .then(contact => {
-			if (!contact) {
-				return response.status(404).end()
-			}
+      if (!contact) {
+        return response.status(404).end()
+      }
 
-			contact.name = name
-			contact.number = number
+      contact.name = name
+      contact.number = number
 
-			return contact.save().then((updatedContact) => {
-				response.json(updatedContact)
-			})
-		})
-		.catch(error => next(error))
+      return contact.save().then((updatedContact) => {
+        response.json(updatedContact)
+      })
+    })
+    .catch(error => next(error))
 })
 
 const errorHandler = (error, request, response, next) => {
@@ -100,8 +99,8 @@ const errorHandler = (error, request, response, next) => {
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
   } else if (error.name === 'ValidationError') {
-		return response.status(400).json({ error: error.message })
-	}
+    return response.status(400).json({ error: error.message })
+  }
 
   next(error)
 }
