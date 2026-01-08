@@ -1,0 +1,24 @@
+# Test send / duplicate name
+GET http://localhost:3003/api/blogs/
+
+###
+POST http://localhost:3003/api/blogs/
+Content-Type: application/json
+
+{
+  "title": "My first blog",
+  "author": "John",
+  "url": "https://www.theblogstarter.com/",
+  "likes": 15
+}
+###
+# Test no name
+POST http://localhost:3003/api/blogs/
+Content-Type: application/json
+
+{
+  "title": "My second blog",
+  "author": "Alton",
+  "url": "https://www.wix.com/blog/what-is-a-blog",
+  "likes": 27
+}
