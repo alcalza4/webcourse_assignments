@@ -1,8 +1,8 @@
 // index.js
-require('dotenv').config()
 const app = require('./app')
+const config = require('./utils/config')
 
-const PORT = process.env.PORT || 3003
+const PORT = config.PORT || 3003
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`)
 })
