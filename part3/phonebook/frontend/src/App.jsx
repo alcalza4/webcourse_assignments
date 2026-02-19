@@ -88,7 +88,7 @@ const App = () => {
 						setPersons(persons.map(person => person.id !== existingPerson.id ? person : returnedName))
 						setNewName('')
 						setNewNumber('')
-						showNotification(`${returnedName.name}\'s phone number has been updated`, 'success')
+						showNotification(`${returnedName.name}'s phone number has been updated`, 'success')
 					})
 					.catch(error => {
 						if (error.response && error.response.data && error.response.data.error) {
