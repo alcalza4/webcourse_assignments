@@ -93,7 +93,7 @@ const App = () => {
   }
 
   const deleteBlog = async (blogToDelete) => {
-    if (window.confirm(`Delete Blog ${blogToDelete.title} by ${blogToDelete.author}?`))
+    if (window.confirm(`Delete Blog ${blogToDelete.title} by ${blogToDelete.author}?`)) {
       try {
         await blogService.deleteBlog(blogToDelete)
         setBlogs(blogs.filter(blog => blog.id !== blogToDelete.id))
@@ -102,6 +102,7 @@ const App = () => {
       } catch (error) {
         showNotification({ error }, 'error')
       }
+    }
   }
 
   if (user === null) {

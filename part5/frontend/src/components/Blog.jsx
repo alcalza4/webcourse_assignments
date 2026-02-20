@@ -10,7 +10,7 @@ const Blog = ({ blog, user, updateLikes, deleteBlog }) => {
     setVisibility(!visible)
   }
 
-  const showDeleteButton = user && blog.user.username === user.username
+  const showDeleteButton = user && blog.user?.username === user.username
 
   const blogStyle = {
     paddingTop: 10,
