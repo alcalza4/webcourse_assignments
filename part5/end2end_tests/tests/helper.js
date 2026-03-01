@@ -10,7 +10,6 @@ const uploadBlog = async (page, request, blog) => {
     return JSON.parse(loggedUserJSON).token
   })
 
-  // 2. Make the API request using that token
   await request.post('http://localhost:3003/api/blogs', {
     data: blog,
     headers: {
