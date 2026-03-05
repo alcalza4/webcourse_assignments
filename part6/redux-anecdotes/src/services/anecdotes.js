@@ -26,4 +26,20 @@ const createNew = async (content) => {
   return await response.json()
 }
 
-export default { getAll, createNew }
+const updateAnecdote = async (newAnecdote) => {
+  const options = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json'},
+    body: JSON.stringify(newAnecdote)
+  }
+
+  const response = await fetch(`${baseUrl}/${newAnecdote.id}`, options)
+
+  if (!response.ok) {
+    throw new Error('Failed to create note')
+  }
+
+  return await response.json()
+}
+
+export default { getAll, createNew, updateAnecdote }
