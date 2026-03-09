@@ -18,17 +18,14 @@ export const createAnecdote = async (newAnecdote) => {
   const response = await fetch(baseUrl, options)
 
   if (!response.ok) {
-    throw new Error('Failed to create anecdote')
+    const errorData = await response.json()
+    throw new Error(errorData.error)
   }
 
   return await response.json()
 }
 
 export const updateAnecdote = async (updatedAnecdote) => {
-  if (updatedAnecdote.content.length < 5) {
-    throw new Error('A new anecdote must be at least 5 chars long')
-  }
-  
   const options = {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
