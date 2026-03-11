@@ -1,20 +1,24 @@
 import { useEffect, useRef } from 'react'
 import LoginForm from './components/LoginForm'
-import BlogList from './components/BlogList'
 import Notification from './components/Notification'
-import Togglable from './components/Togglable'
-import CreateBlogForm from './components/CreateBlogForm'
+import Blog from './components/Blog'
+import Blogs from './components/Blogs'
+import User from './components/User'
+import Users from './components/Users'
+import Menu from './components/Menu'
 import './index.css'
 
 import blogService from './services/blogs'
 import { useUser } from './context/UserContext'
 
-const App = () => {
-  const createBlogFormRef = useRef()
+import {
+  BrowserRouter as Router, Routes, Route, Link
+} from 'react-router-dom'
 
+
+const App = () => {
   // Reducer Items
   const [user, userDispatch] = useUser()
-
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -25,11 +29,6 @@ const App = () => {
     }
   }, [userDispatch])
 
-  const handleLogout = () => {
-    window.localStorage.getItem('loggedBlogappUser')
-    userDispatch({ type: 'CLEAR_USER' })
-  }
-
   if (user === null) {
     return (
       <LoginForm/>
@@ -37,23 +36,17 @@ const App = () => {
   }
 
   return (
-    <div>
+    <Router>
+      <Menu />
       <h2>blogs</h2>
       <Notification />
-
-      {user && (
-        <div>
-          <span>{user.name} logged in</span>
-          <button onClick={handleLogout}>logout</button>
-        </div>
-      )}
-
-      <Togglable buttonLabel="create new note" ref={createBlogFormRef}>
-        <CreateBlogForm closeForm={() => createBlogFormRef.current.toggleVisibility()} />
-      </Togglable>
-
-      <BlogList user={user} />
-    </div>
+      <Routes>
+        <Route path="/" element={<Blogs />} />
+        <Route path="/blogs/:id" element={<Blog />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/users/:id" element={<User />} />
+      </Routes>
+    </Router>
   )
 }
 
