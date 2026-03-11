@@ -1,3 +1,5 @@
+import { Alert } from 'react-bootstrap'
+
 import { useContext } from 'react'
 import NotificationContext from '../context/NotificationContext'
 
@@ -8,7 +10,13 @@ const Notification = () => {
     return null
   }
 
-  return <div className={notification.type}>{notification.message}</div>
+  const variant = notification.type === 'error' ? 'danger' : 'success'
+
+  return (
+    <Alert variant={variant} className="mt-3">
+      {notification.message}
+    </Alert>
+  )
 }
 
 export default Notification

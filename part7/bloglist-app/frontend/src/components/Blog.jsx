@@ -5,6 +5,8 @@ import { useUser } from '../context/UserContext'
 import blogService from '../services/blogs'
 import { useState } from 'react'
 
+import { Card, Button, Form, ListGroup, InputGroup } from 'react-bootstrap'
+
 const Blog = () => {
   const [comment, setComment] = useState('')
 
@@ -49,33 +51,59 @@ const Blog = () => {
   }
 
   return (
-    <div>
-      <h2>{blog.title}</h2>
-      {blog.url} <br />
-      likes {blog.likes}{' '}
-      <button
-        onClick={() => likeMutation.mutate({ ...blog, likes: blog.likes + 1 })}
-      >
-        like
-      </button>{' '}
-      <br />
-      {blog.user.name}
-      {showDeleteButton && <button onClick={handleDelete}>remove</button>}
-      <h3>comments</h3>
-      <form onSubmit={addComment}>
-        <input
-          type="text"
-          value={comment}
-          placeholder="comment"
-          onChange={({ target }) => setComment(target.value)}
-        />
-        <button type="submit">add comment</button>
-      </form>
-      <ul>
-        {blog.comments.map((comment, index) => (
-          <li key={index}>{comment}</li>
+    <div className="mt-4">
+      <Card className="mb-4 shadow-sm">
+        <Card.Body>
+          <Card.Title className="display-6">{blog.title}</Card.Title>
+          <Card.Subtitle className="mb-3 text-muted">
+            by {blog.author}
+          </Card.Subtitle>
+          <Card.Text>
+            <a href={blog.url} target="_blank" rel="noreferrer">
+              {blog.url}
+            </a>
+            <br />
+            <span className="me-3">{blog.likes} likes</span>
+            <Button
+              variant="outline-primary"
+              size="sm"
+              onClick={() =>
+                likeMutation.mutate({ ...blog, likes: blog.likes + 1 })
+              }
+            >
+              Like
+            </Button>
+            <br />
+            <small className="text-muted">Added by {blog.user?.name}</small>
+          </Card.Text>
+          {showDeleteButton && (
+            <Button variant="danger" size="sm" onClick={handleDelete}>
+              Remove Blog
+            </Button>
+          )}
+        </Card.Body>
+      </Card>
+
+      <h4>Comments</h4>
+      <Form onSubmit={addComment} className="mb-3">
+        <InputGroup>
+          <Form.Control
+            type="text"
+            value={comment}
+            placeholder="Write a comment..."
+            onChange={({ target }) => setComment(target.value)}
+          />
+          <Button variant="primary" type="submit">
+            Add Comment
+          </Button>
+        </InputGroup>
+      </Form>
+
+      <ListGroup variant="flush">
+        {(blog.comments || []).map((comment, index) => (
+          <ListGroup.Item key={index}>{comment}</ListGroup.Item>
         ))}
-      </ul>
+      </ListGroup>
     </div>
   )
 }

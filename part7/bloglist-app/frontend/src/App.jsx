@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 import Blog from './components/Blog'
@@ -11,7 +11,7 @@ import './index.css'
 import blogService from './services/blogs'
 import { useUser } from './context/UserContext'
 
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 const App = () => {
   // Reducer Items
@@ -32,15 +32,17 @@ const App = () => {
 
   return (
     <Router>
-      <Menu />
-      <h2>blogs</h2>
-      <Notification />
-      <Routes>
-        <Route path="/" element={<Blogs />} />
-        <Route path="/blogs/:id" element={<Blog />} />
-        <Route path="/users" element={<Users />} />
-        <Route path="/users/:id" element={<User />} />
-      </Routes>
+      <div className="container">
+        <Menu />
+        <h2 className="display-5 fw-bold black mb-4 mt-3">Blogs Application</h2>
+        <Notification />
+        <Routes>
+          <Route path="/" element={<Blogs />} />
+          <Route path="/blogs/:id" element={<Blog />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/users/:id" element={<User />} />
+        </Routes>
+      </div>
     </Router>
   )
 }

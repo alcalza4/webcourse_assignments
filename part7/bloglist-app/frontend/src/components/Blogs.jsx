@@ -6,6 +6,8 @@ import CreateBlogForm from './CreateBlogForm'
 import Togglable from './Togglable'
 import blogService from '../services/blogs'
 
+import { ListGroup } from 'react-bootstrap'
+
 const Blogs = () => {
   const createBlogFormRef = useRef()
   const [user] = useUser()
@@ -32,22 +34,22 @@ const Blogs = () => {
   }
 
   return (
-    <div>
-      <Togglable buttonLabel="create new note" ref={createBlogFormRef}>
+    <div className="mt-4">
+      <Togglable buttonLabel="Create new note" ref={createBlogFormRef}>
         <CreateBlogForm
           closeForm={() => createBlogFormRef.current.toggleVisibility()}
         />
       </Togglable>
 
-      <div>
+      <ListGroup className="mt-4">
         {sortedBlogs.map((blog) => (
-          <li style={blogStyle} key={blog.id}>
-            <Link to={`/blogs/${blog.id}`}>
+          <ListGroup.Item key={blog.id}>
+            <Link to={`/blogs/${blog.id}`} className="text-decoration-none">
               {blog.title} {blog.author}
             </Link>
-          </li>
+          </ListGroup.Item>
         ))}
-      </div>
+      </ListGroup>
     </div>
   )
 }
