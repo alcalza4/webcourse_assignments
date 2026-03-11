@@ -6,24 +6,29 @@ import Togglable from './components/Togglable'
 import CreateBlogForm from './components/CreateBlogForm'
 import './index.css'
 
-import { useDispatch, useSelector } from 'react-redux'
-import { initializeBlogs } from './reducers/blogReducer'
-import { initUser, logoutUser } from './reducers/userReducer'
+import blogService from './services/blogs'
+import { useUser } from './context/UserContext'
 
 const App = () => {
   const createBlogFormRef = useRef()
 
   // Reducer Items
-  const dispatch = useDispatch()
-  const user = useSelector(state => state.user)
+  const [user, userDispatch] = useUser()
+
 
   useEffect(() => {
-    dispatch(initializeBlogs())
-  }, [dispatch])
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      blogService.setToken(user.token)
+      userDispatch({ type: 'SET_USER', payload: user})
+    }
+  }, [userDispatch])
 
-  useEffect(() => {
-    dispatch(initUser())
-  }, [dispatch])
+  const handleLogout = () => {
+    window.localStorage.getItem('loggedBlogappUser')
+    userDispatch({ type: 'CLEAR_USER' })
+  }
 
   if (user === null) {
     return (
@@ -39,7 +44,7 @@ const App = () => {
       {user && (
         <div>
           <span>{user.name} logged in</span>
-          <button onClick={() => dispatch(logoutUser())}>logout</button>
+          <button onClick={handleLogout}>logout</button>
         </div>
       )}
 

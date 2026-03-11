@@ -1,19 +1,40 @@
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { incrementLikes, deleteBlog } from '../reducers/blogReducer'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import blogService from '../services/blogs'
+import { useNotification } from '../context/NotificationContext'
 
 
 const Blog = ({ blog, user }) => {
   const [visible, setVisibility] = useState(false)
-
-  //const hideWhenVisible = { display: visible ? 'none' : '' }
   const showWhenVisible = { display: visible ? '' : 'none' }
-
   const toggleVisibility = () => {
     setVisibility(!visible)
   }
 
-  const dispatch = useDispatch()
+  const queryClient = useQueryClient()
+  const [, sendNotification] = useNotification()
+
+  const updateBlogMutation = useMutation({
+    mutationFn: blogService.updateBlog,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['blogs'] })
+      sendNotification(`blog ${blog.title} has been liked`, 'success')
+    },
+    onError: (error) => {
+      sendNotification(`error liking blog: ${error.message}`, 'error')
+    }
+  })
+
+  const deleteBlogMutation = useMutation({
+    mutationFn: blogService.deleteBlog,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['blogs'] })
+      sendNotification(`blog ${blog.title} been deleted`, 'success')
+    },
+    onError: (error) => {
+      sendNotification(`error deleting blog: ${error.message}`, 'error')
+    }
+  })
 
   const showDeleteButton = user && blog.user?.username === user.username
 
@@ -27,7 +48,7 @@ const Blog = ({ blog, user }) => {
 
   const handleDelete = () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
-      dispatch(deleteBlog(blog))
+      deleteBlogMutation.mutate(blog)
     }
   }
 
@@ -39,7 +60,7 @@ const Blog = ({ blog, user }) => {
       </div>
       <div style={showWhenVisible}>
         {blog.url} <br />
-        likes {blog.likes} <button onClick={() => dispatch(incrementLikes(blog))}>like</button> <br />
+        likes {blog.likes} <button onClick={() => updateBlogMutation.mutate({...blog, likes: blog.likes + 1})}>like</button> <br />
         {blog.user.name}
         {showDeleteButton && <button onClick={handleDelete}>remove</button>}
       </div>

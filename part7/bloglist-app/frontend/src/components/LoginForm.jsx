@@ -1,18 +1,32 @@
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
 import Notification from './Notification'
-import { loginUser } from '../reducers/userReducer'
+import { useUser } from '../context/UserContext'
+import { useNotification } from '../context/NotificationContext'
+import blogService from '../services/blogs'
+import loginService from '../services/login'
+
 const LoginForm = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const dispatch = useDispatch()
+  const [, userDispatch] = useUser()
+  const [, sendNotification] = useNotification()
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault()
-    dispatch(loginUser({ username, password }))
-    setUsername('')
-    setPassword('')
+    try {
+      const user = await loginService.login({ username, password })
+      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
+      blogService.setToken(user.token)
+      
+      userDispatch({ type: 'SET_USER', payload: user })
+      sendNotification(`Welcome back ${user.name}`, 'success')
+      
+      setUsername('')
+      setPassword('')
+    } catch (error) {
+      sendNotification('Wrong username or password', 'error')
+    }
   }
 
   return (

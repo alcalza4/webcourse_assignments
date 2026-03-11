@@ -1,8 +1,19 @@
-import { useSelector } from "react-redux"
+import { useQuery } from '@tanstack/react-query'
+import blogService from '../services/blogs'
 import Blog from './Blog'
 
 const BlogList = ({ user }) => {
-  const blogs = useSelector(state => state.blogs)
+  const result = useQuery({
+    queryKey: ['blogs'],
+    queryFn: blogService.getAll,
+    retry: false
+  })
+
+  if (result.isLoading) {
+    return <div>loading data...</div>
+  }
+
+  const blogs = result.data
   const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes)
 
   return (
