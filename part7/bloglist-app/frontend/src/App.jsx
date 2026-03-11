@@ -17,9 +17,9 @@ const App = () => {
   const createBlogFormRef = useRef()
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs(blogs.sort((a, b) => b.likes - a.likes))
-    )
+    blogService
+      .getAll()
+      .then((blogs) => setBlogs(blogs.sort((a, b) => b.likes - a.likes)))
   }, [])
 
   useEffect(() => {
@@ -38,15 +38,13 @@ const App = () => {
     }, 5000)
   }
 
-  const handleLogin = async event => {
+  const handleLogin = async (event) => {
     event.preventDefault()
 
     try {
       const user = await loginService.login({ username, password })
 
-      window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(user)
-      )
+      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
 
       blogService.setToken(user.token)
       setUser(user)
@@ -58,7 +56,7 @@ const App = () => {
     console.log('loggin in with', username, password)
   }
 
-  const handleLogout = async event => {
+  const handleLogout = async (event) => {
     event.preventDefault()
     setUser(null)
     window.localStorage.removeItem('loggedBlogappUser')
@@ -71,7 +69,10 @@ const App = () => {
       const updatedBlogs = blogs.concat(returnedBlog)
       setBlogs(updatedBlogs.sort((a, b) => b.likes - a.likes))
       createBlogFormRef.current.toggleVisibility()
-      showNotification(`a new blog post ${blogObject.title} by ${blogObject.author} added`, 'success')
+      showNotification(
+        `a new blog post ${blogObject.title} by ${blogObject.author} added`,
+        'success',
+      )
     } catch {
       showNotification('error creating new blog post', 'error')
     }
@@ -83,9 +84,11 @@ const App = () => {
 
       const blogWithUser = {
         ...returnedBlog,
-        user: blogObject.user
+        user: blogObject.user,
       }
-      const updatedBlogs = blogs.map(blog => blog.id !== returnedBlog.id ? blog : blogWithUser)
+      const updatedBlogs = blogs.map((blog) =>
+        blog.id !== returnedBlog.id ? blog : blogWithUser,
+      )
       setBlogs(updatedBlogs.sort((a, b) => b.likes - a.likes))
     } catch {
       showNotification('error updating likes', 'error')
@@ -93,12 +96,19 @@ const App = () => {
   }
 
   const deleteBlog = async (blogToDelete) => {
-    if (window.confirm(`Delete Blog ${blogToDelete.title} by ${blogToDelete.author}?`)) {
+    if (
+      window.confirm(
+        `Delete Blog ${blogToDelete.title} by ${blogToDelete.author}?`,
+      )
+    ) {
       try {
         await blogService.deleteBlog(blogToDelete)
-        setBlogs(blogs.filter(blog => blog.id !== blogToDelete.id))
+        setBlogs(blogs.filter((blog) => blog.id !== blogToDelete.id))
 
-        showNotification(`Blog ${blogToDelete.title} by ${blogToDelete.author} has been removed`, 'success')
+        showNotification(
+          `Blog ${blogToDelete.title} by ${blogToDelete.author} has been removed`,
+          'success',
+        )
       } catch (error) {
         showNotification({ error }, 'error')
       }
@@ -109,7 +119,10 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
-        <Notification message={notification?.message} type={notification?.type} />
+        <Notification
+          message={notification?.message}
+          type={notification?.type}
+        />
         <form onSubmit={handleLogin}>
           <div>
             <label>
@@ -151,12 +164,18 @@ const App = () => {
       )}
 
       <Togglable buttonLabel="create new note" ref={createBlogFormRef}>
-        <CreateBlogForm createBlog={addBlog}/>
+        <CreateBlogForm createBlog={addBlog} />
       </Togglable>
 
-      {blogs.map(blog =>
-        <Blog key={blog.id} user={user} blog={blog} updateLikes={updateLikes} deleteBlog={deleteBlog}/>
-      )}
+      {blogs.map((blog) => (
+        <Blog
+          key={blog.id}
+          user={user}
+          blog={blog}
+          updateLikes={updateLikes}
+          deleteBlog={deleteBlog}
+        />
+      ))}
     </div>
   )
 }

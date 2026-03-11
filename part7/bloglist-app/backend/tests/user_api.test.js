@@ -48,7 +48,7 @@ describe('User API', () => {
     const usersAtEnd = await User.find({})
     assert.strictEqual(usersAtEnd.length, usersAtStart.length + 1)
 
-    const usernames = usersAtEnd.map(u => u.username)
+    const usernames = usersAtEnd.map((u) => u.username)
     assert(usernames.includes(newUser.username))
   })
 
@@ -80,14 +80,13 @@ describe('User API', () => {
       password: '12', // Too short
     }
 
-    const result = await api
-      .post('/api/users')
-      .send(newUser)
-      .expect(400)
+    const result = await api.post('/api/users').send(newUser).expect(400)
 
-    assert(result.body.error.includes('password must be at least 3 characters long'))
+    assert(
+      result.body.error.includes('password must be at least 3 characters long'),
+    )
   })
-  
+
   test('creation fails with proper statuscode if username is too short', async () => {
     const newUser = {
       username: 'no', // Too short
@@ -95,10 +94,7 @@ describe('User API', () => {
       password: 'validpassword',
     }
 
-    const result = await api
-      .post('/api/users')
-      .send(newUser)
-      .expect(400)
+    const result = await api.post('/api/users').send(newUser).expect(400)
 
     assert(result.body.error.includes('User validation failed'))
   })

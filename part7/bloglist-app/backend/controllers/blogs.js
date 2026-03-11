@@ -20,7 +20,7 @@ blogsRouter.post('/', async (request, response) => {
     author: body.author,
     url: body.url,
     likes: body.likes || 0,
-    user: user._id
+    user: user._id,
   })
 
   const savedBlog = await blog.save()
@@ -46,12 +46,14 @@ blogsRouter.delete('/:id', async (request, response) => {
     return response.status(204).end()
   }
 
-  return response.status(401).json({ error: 'only the creator can delete a blog' })
+  return response
+    .status(401)
+    .json({ error: 'only the creator can delete a blog' })
 })
 
 blogsRouter.put('/:id', async (request, response) => {
   const body = request.body
-  
+
   const blog = {
     title: body.title,
     author: body.author,
@@ -59,7 +61,9 @@ blogsRouter.put('/:id', async (request, response) => {
     likes: body.likes,
   }
 
-  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true})
+  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, {
+    new: true,
+  })
   response.json(updatedBlog)
 })
 

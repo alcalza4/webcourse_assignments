@@ -21,14 +21,17 @@ const mostBlogs = (blogs) => {
 
   const authorCounts = {}
 
-  blogs.forEach(blog => {
+  blogs.forEach((blog) => {
     const author = blog.author
     authorCounts[author] = (authorCounts[author] || 0) + 1
   })
 
-  return Object.entries(authorCounts).reduce((max, [author, count]) => {
-    return count > max.blogs ? { author: author, blogs: count} : max
-  }, {blogs: -1})
+  return Object.entries(authorCounts).reduce(
+    (max, [author, count]) => {
+      return count > max.blogs ? { author: author, blogs: count } : max
+    },
+    { blogs: -1 },
+  )
 }
 
 const mostLikes = (blogs) => {
@@ -38,16 +41,22 @@ const mostLikes = (blogs) => {
 
   const authorLikeCounts = {}
 
-  blogs.forEach(blog => {
+  blogs.forEach((blog) => {
     const author = blog.author
     authorLikeCounts[author] = (authorLikeCounts[author] || 0) + blog.likes
   })
 
-  return Object.entries(authorLikeCounts).reduce((max, [author, likeCount]) => {
-    return likeCount > max.likes ? { author: author, likes: likeCount} : max
-  }, {likes: -1})
+  return Object.entries(authorLikeCounts).reduce(
+    (max, [author, likeCount]) => {
+      return likeCount > max.likes ? { author: author, likes: likeCount } : max
+    },
+    { likes: -1 },
+  )
 }
 
 module.exports = {
-  totalLikes, favoriteBlog, mostBlogs, mostLikes
+  totalLikes,
+  favoriteBlog,
+  mostBlogs,
+  mostLikes,
 }

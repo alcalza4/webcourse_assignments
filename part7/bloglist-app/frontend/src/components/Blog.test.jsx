@@ -5,11 +5,11 @@ import { expect, test, vi } from 'vitest'
 
 test('renders content', () => {
   const blog = {
-    'title': 'React patterns',
-    'author': 'Michael Chan',
-    'url': 'https://reactpatterns.com/',
-    'likes': 7,
-    'user': 'ac'
+    title: 'React patterns',
+    author: 'Michael Chan',
+    url: 'https://reactpatterns.com/',
+    likes: 7,
+    user: 'ac',
   }
   render(<Blog blog={blog} />)
 
@@ -28,13 +28,12 @@ test('renders content', () => {
 
 test('after button press, show extended view', async () => {
   const blog = {
-    'title': 'React patterns',
-    'author': 'Michael Chan',
-    'url': 'https://reactpatterns.com/',
-    'likes': 7,
-    'user': { name: 'ac' }
+    title: 'React patterns',
+    author: 'Michael Chan',
+    url: 'https://reactpatterns.com/',
+    likes: 7,
+    user: { name: 'ac' },
   }
-
 
   render(<Blog blog={blog} />)
 
@@ -51,11 +50,11 @@ test('after button press, show extended view', async () => {
 
 test('show update on like button twice', async () => {
   const blog = {
-    'title': 'React patterns',
-    'author': 'Michael Chan',
-    'url': 'https://reactpatterns.com/',
-    'likes': 7,
-    'user': { name: 'ac' }
+    title: 'React patterns',
+    author: 'Michael Chan',
+    url: 'https://reactpatterns.com/',
+    likes: 7,
+    user: { name: 'ac' },
   }
 
   const mockHandler = vi.fn()
