@@ -1,0 +1,109 @@
+# Post First User
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "jderby",
+    "name": "John Derby",
+    "password": "validpassword"
+}
+### Get User Login Token
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+    "username": "jderby",
+    "password": "validpassword"
+}
+### Post Second User
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "flyapple4",
+    "name": "Louberty Loutry",
+    "password": "anothervalidpassword"
+}
+### Get User 2 Login Token
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+    "username": "flyapple4",
+    "password": "anothervalidpassword"
+}
+###
+@token1 = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpkZXJieSIsImlkIjoiNjk2NThkY2QwNDcwODcxYmNiZmZiNjdjIiwiaWF0IjoxNzY4MjYzMzI2fQ.viN-OjBvVuzJSXw3yko0odgkOQwpZY6Djb4cUfe8j6E
+@token2 = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZseWFwcGxlNCIsImlkIjoiNjk2NThmMGYwNDcwODcxYmNiZmZiNjg0IiwiaWF0IjoxNzY4MjYzNDYxfQ.RZLRgK_P4ldFw80FlturnYg8kzXkGVDMZxHiSVCF94k
+
+### 1. React patterns
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: Bearer {{token2}}
+
+{
+  "title": "React patterns",
+  "author": "Michael Chan",
+  "url": "https://reactpatterns.com/",
+  "likes": 7
+}
+
+### 2. Go To Statement Considered Harmful
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: Bearer {{token2}}
+
+{
+  "title": "Go To Statement Considered Harmful",
+  "author": "Edsger W. Dijkstra",
+  "url": "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
+  "likes": 5
+}
+
+### 3. Canonical string reduction
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: Bearer {{token2}}
+
+{
+  "title": "Canonical string reduction",
+  "author": "Edsger W. Dijkstra",
+  "url": "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+  "likes": 12
+}
+
+### 4. First class tests
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: Bearer {{token1}}
+
+{
+  "title": "First class tests",
+  "author": "Robert C. Martin",
+  "url": "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
+  "likes": 10
+}
+
+### 5. TDD harms architecture
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: Bearer {{token1}}
+
+{
+  "title": "TDD harms architecture",
+  "author": "Robert C. Martin",
+  "url": "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
+  "likes": 0
+}
+
+### 6. Type wars
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: Bearer {{token2}}
+
+{
+  "title": "Type wars",
+  "author": "Robert C. Martin",
+  "url": "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
+  "likes": 2
+}
