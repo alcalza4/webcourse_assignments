@@ -23,7 +23,7 @@ const CreateBlogForm = ({ closeForm }) => {
     },
     onError: () => {
       sendNotification('blog creation failed', 'error')
-    }
+    },
   })
 
   const addBlog = (event) => {

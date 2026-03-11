@@ -21,6 +21,13 @@ const createBlog = async (newBlog) => {
   return response.data
 }
 
+const postComment = async (id, commentString) => {
+  const response = await axios.post(`${baseUrl}/${id}/comments`, {
+    comment: commentString,
+  })
+  return response.data
+}
+
 const updateBlog = async (blogToUpdate) => {
   const response = await axios.put(
     `${baseUrl}/${blogToUpdate.id}`,
@@ -37,4 +44,11 @@ const deleteBlog = async (blogToDelete) => {
   return response.data
 }
 
-export default { getAll, createBlog, setToken, updateBlog, deleteBlog }
+export default {
+  getAll,
+  createBlog,
+  setToken,
+  updateBlog,
+  postComment,
+  deleteBlog,
+}

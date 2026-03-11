@@ -6,7 +6,6 @@ import CreateBlogForm from './CreateBlogForm'
 import Togglable from './Togglable'
 import blogService from '../services/blogs'
 
-
 const Blogs = () => {
   const createBlogFormRef = useRef()
   const [user] = useUser()
@@ -14,7 +13,7 @@ const Blogs = () => {
   const result = useQuery({
     queryKey: ['blogs'],
     queryFn: blogService.getAll,
-    retry: false
+    retry: false,
   })
 
   if (result.isLoading) {
@@ -35,13 +34,17 @@ const Blogs = () => {
   return (
     <div>
       <Togglable buttonLabel="create new note" ref={createBlogFormRef}>
-        <CreateBlogForm closeForm={() => createBlogFormRef.current.toggleVisibility()} />
+        <CreateBlogForm
+          closeForm={() => createBlogFormRef.current.toggleVisibility()}
+        />
       </Togglable>
 
       <div>
-        {sortedBlogs.map(blog => (
+        {sortedBlogs.map((blog) => (
           <li style={blogStyle} key={blog.id}>
-            <Link to={`/blogs/${blog.id}`}>{blog.title} {blog.author}</Link>
+            <Link to={`/blogs/${blog.id}`}>
+              {blog.title} {blog.author}
+            </Link>
           </li>
         ))}
       </div>

@@ -11,10 +11,7 @@ import './index.css'
 import blogService from './services/blogs'
 import { useUser } from './context/UserContext'
 
-import {
-  BrowserRouter as Router, Routes, Route, Link
-} from 'react-router-dom'
-
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
 const App = () => {
   // Reducer Items
@@ -25,14 +22,12 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       blogService.setToken(user.token)
-      userDispatch({ type: 'SET_USER', payload: user})
+      userDispatch({ type: 'SET_USER', payload: user })
     }
   }, [userDispatch])
 
   if (user === null) {
-    return (
-      <LoginForm/>
-    )
+    return <LoginForm />
   }
 
   return (

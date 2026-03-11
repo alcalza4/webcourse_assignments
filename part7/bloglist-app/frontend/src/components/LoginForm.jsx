@@ -18,10 +18,10 @@ const LoginForm = () => {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
       blogService.setToken(user.token)
-      
+
       userDispatch({ type: 'SET_USER', payload: user })
       sendNotification(`Welcome back ${user.name}`, 'success')
-      
+
       setUsername('')
       setPassword('')
     } catch (error) {
@@ -33,7 +33,7 @@ const LoginForm = () => {
     <div>
       <h2>Log in to application</h2>
       <Notification />
-      
+
       <form onSubmit={handleLogin}>
         <div>
           <label>

@@ -2,7 +2,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import blogService from '../services/blogs'
 import { useNotification } from '../context/NotificationContext'
 
-
 export const useLikeBlog = () => {
   const queryClient = useQueryClient()
   const [, notify] = useNotification()
@@ -15,7 +14,7 @@ export const useLikeBlog = () => {
     },
     onError: (error) => {
       notify(`error liking blog: ${error.message}`, 'error')
-    }
+    },
   })
 }
 
@@ -31,6 +30,22 @@ export const useDeleteBlog = () => {
     },
     onError: (error) => {
       notify(`error deleting blog: ${error.message}`, 'error')
-    }
+    },
+  })
+}
+
+export const useCommentBlog = () => {
+  const queryClient = useQueryClient()
+  const [, notify] = useNotification()
+
+  return useMutation({
+    mutationFn: ({ id, comment }) => blogService.postComment(id, comment),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['blogs'] })
+      notify('Comment added!', 'success')
+    },
+    onError: (error) => {
+      notify(`Error adding comment: ${error.message}`, 'error')
+    },
   })
 }

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const Menu = () => {
   const padding = {
-    paddingRight: 5
+    paddingRight: 5,
   }
 
   const [user, userDispatch] = useUser()
@@ -15,8 +15,12 @@ const Menu = () => {
 
   return (
     <div>
-      <Link style={padding} to="/">blogs</Link>
-      <Link style={padding} to="/users">users</Link>
+      <Link style={padding} to="/">
+        blogs
+      </Link>
+      <Link style={padding} to="/users">
+        users
+      </Link>
       <span>{user.name} logged in</span>
       <button onClick={handleLogout}>logout</button>
     </div>

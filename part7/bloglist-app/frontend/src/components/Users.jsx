@@ -6,7 +6,7 @@ const Users = () => {
   const result = useQuery({
     queryKey: ['users'],
     queryFn: userService.getAll,
-    retry: false
+    retry: false,
   })
 
   if (result.isLoading) {
@@ -14,7 +14,7 @@ const Users = () => {
   }
 
   const usersData = result.data || []
-  
+
   return (
     <div>
       <h2>Users</h2>
@@ -26,7 +26,7 @@ const Users = () => {
           </tr>
         </thead>
         <tbody>
-          {usersData.map(user => (
+          {usersData.map((user) => (
             <tr key={user.id}>
               <td>
                 <Link to={`/users/${user.id}`}>{user.name}</Link>
